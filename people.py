@@ -17,6 +17,7 @@ if __name__ == "__main__":
     df_animals = df_animals.withColumnRenamed("Lebensraum", "habitat")
     df_animals = df_animals.withColumnRenamed("Größe", "size")
     df_animals = df_animals.withColumnRenamed("Herkunft", "origin")
+    df_animals = df_animals.withColumnRenamed("Fressverhalten", "food")
     
     df_animals.createOrReplaceTempView("animals")
     
