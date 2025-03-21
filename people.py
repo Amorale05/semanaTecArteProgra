@@ -12,6 +12,7 @@ if __name__ == "__main__":
     df_animals = spark.read.csv(path_animals, header=True, inferSchema=True, sep=';')
     
     # Renombrar columnas con espacios o caracteres especiales si es necesario
+    df_animals = df_animals.withColumnRenamed("Tierart", "animal")
     df_animals = df_animals.withColumnRenamed("ist bedroht?", "endangered")
     df_animals = df_animals.withColumnRenamed("Chipnummer", "chip_number")
     df_animals = df_animals.withColumnRenamed("Lebensraum", "habitat")
