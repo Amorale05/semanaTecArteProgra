@@ -41,7 +41,7 @@ if __name__ == "__main__":
         json.dump(results, file)
     
     # Contar cuántos animales hay por tipo
-    query = "SELECT Tierart, COUNT(*) FROM animals GROUP BY Tierart"
+    query = "SELECT animal, COUNT(*) FROM animals GROUP BY animal"
     df_species_count = spark.sql(query)
     df_species_count.show()
     
