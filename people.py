@@ -26,9 +26,8 @@ if __name__ == "__main__":
     
     # Consulta: Mostrar nombre y hábitat de los animales en peligro
     query = """
-    SELECT Name, habitat 
-    FROM animals 
-    WHERE endangered == 'yes' 
+    SELECT *
+    FROM animals
     ORDER BY Name
     """
     df_endangered = spark.sql(query)
