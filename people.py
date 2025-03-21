@@ -4,32 +4,44 @@ import json
 if __name__ == "__main__":
     spark = SparkSession\
         .builder\
-        .appName("people")\
+        .appName("animals")\
         .getOrCreate()
 
-    print("read dataset.csv ... ")
-    path_people="dataset.csv"
-    df_people = spark.read.csv(path_people,header=True,inferSchema=True)
-    df_people = df_people.withColumnRenamed("date of birth", "birth")
-    df_people.createOrReplaceTempView("people")
-    query='DESCRIBE people'
+    print("Leyendo animals.csv ... ")
+    path_animals = "animals.csv"  # Asegúrate de que este es el nombre correcto del archivo CSV
+    df_animals = spark.read.csv(path_animals, header=True, inferSchema=True, sep=';')
+    
+    # Renombrar columnas con espacios o caracteres especiales si es necesario
+    df_animals = df_animals.withColumnRenamed("ist bedroht?", "endangered")
+    df_animals = df_animals.withColumnRenamed("Chipnummer", "chip_number")
+    df_animals = df_animals.withColumnRenamed("Lebensraum", "habitat")
+    df_animals = df_animals.withColumnRenamed("Größe", "size")
+    df_animals = df_animals.withColumnRenamed("Herkunft", "origin")
+    
+    df_animals.createOrReplaceTempView("animals")
+    
+    # Descripción de la tabla
+    query = 'DESCRIBE animals'
     spark.sql(query).show(20)
-
-    query="""SELECT name, birth FROM people WHERE sex=="male" ORDER BY `birth`"""
-    df_people_names = spark.sql(query)
-    df_people_names.show(20)
-
-    query='SELECT name, `birth` FROM people WHERE `birth` BETWEEN "1903-01-01" AND "1950-12-31" ORDER BY `birth`'
-    df_people_1903_1906 = spark.sql(query)
-    df_people_1903_1906.show(20)
-    results = df_people_1903_1906.toJSON().collect()
-    #print(results)
-    df_people_1903_1906.write.mode("overwrite").json("results")
-    #df_people_1903_1906.coalesce(1).write.json('results/data_merged.json')
-    with open('results/data.json', 'w') as file:
+    
+    # Consulta: Mostrar nombre y hábitat de los animales en peligro
+    query = """
+    SELECT Name, habitat 
+    FROM animals 
+    WHERE endangered == 'yes' 
+    ORDER BY Name
+    """
+    df_endangered = spark.sql(query)
+    df_endangered.show(20)
+    
+    # Guardar los resultados en JSON
+    results = df_endangered.toJSON().collect()
+    with open('results/animals_endangered.json', 'w') as file:
         json.dump(results, file)
-
-    query='SELECT sex,COUNT(sex) FROM people WHERE birth BETWEEN "1903-01-01" AND "1911-12-31" GROUP BY sex'
-    df_people_1903_1906_sex = spark.sql(query)
-    df_people_1903_1906_sex.show()
+    
+    # Contar cuántos animales hay por tipo
+    query = "SELECT Tierart, COUNT(*) FROM animals GROUP BY Tierart"
+    df_species_count = spark.sql(query)
+    df_species_count.show()
+    
     spark.stop()
