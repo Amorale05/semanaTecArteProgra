@@ -40,7 +40,7 @@ def get_spark_results(url_results):
 
 
 github_user  =  st.text_input('Github user', value='Amorale05')
-github_repo  =  st.text_input('Github repo', value='gitLabs')
+github_repo  =  st.text_input('Github repo', value='semanaTecArteProgra')
 spark_job    =  st.text_input('Spark job', value='spark')
 github_token =  st.text_input('Github token', value='XXX')
 
