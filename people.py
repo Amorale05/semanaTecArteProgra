@@ -8,7 +8,7 @@ if __name__ == "__main__":
         .getOrCreate()
 
     print("Leyendo animals.csv ... ")
-    path_animals = "animals.csv"  # Asegúrate de que este es el nombre correcto del archivo CSV
+    path_animals = "dataset.csv"  # Asegúrate de que este es el nombre correcto del archivo CSV
     df_animals = spark.read.csv(path_animals, header=True, inferSchema=True, sep=';')
     
     # Renombrar columnas con espacios o caracteres especiales si es necesario
