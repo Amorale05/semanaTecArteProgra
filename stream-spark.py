@@ -27,9 +27,9 @@ def post_spark_job(user, repo, job, token):
     # Display the response in the app
     st.write(response)
 
-st.title("Spark & streamlit")
+st.title("Adrian Morales - A01738047 - Reto - Semana Tec")
 
-st.header("spark-submit Job")
+st.header("Datos de spark-submit Job")
 
 def get_spark_results(url_results):
     response = requests.get(url_results)
@@ -47,7 +47,7 @@ github_token =  st.text_input('Github token', value='XXX')
 if st.button("POST spark submit"):
     post_spark_job(github_user, github_repo, spark_job, github_token)
 
-st.header("spark-submit results")
+st.header("spark-submit results: Tabla de animalitos")
 
 url_results=  st.text_input('URL results', value='https://raw.githubusercontent.com/Amorale05/semanaTecArteProgra/refs/heads/main/results/animals_endangered.json')
 
